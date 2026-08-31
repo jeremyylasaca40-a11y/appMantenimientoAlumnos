@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">appMantenimientoAlumnos</string>
+    <string name="app_name">Mantenimiento Alumnos</string>
+    <string name="menu_nuevo">Nuevo Alumno</string>
+    <string name="menu_acerca">Acerca de</string>
 </resources>
