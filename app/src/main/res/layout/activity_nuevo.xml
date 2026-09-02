@@ -2,83 +2,123 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     android:background="#F5F5F5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="✨ NUEVO ALUMNO"
-            android:textSize="24sp"
+            android:text="REGISTRO DE ALUMNO"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#1976D2"
             android:gravity="center"
-            android:layout_marginBottom="24dp"/>
+            android:textColor="#1976D2"
+            android:layout_marginBottom="16dp" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <!-- 1. Nombre -->
+        <EditText
+            android:id="@+id/txtNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="Código del alumno">
+            android:hint="Nombre completo"
+            android:inputType="textPersonName"
+            android:layout_marginBottom="10dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etCodigo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <!-- 2. DNI / Documento -->
+        <EditText
+            android:id="@+id/txtDni"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="Nombres">
+            android:hint="DNI / Documento de Identidad"
+            android:inputType="number"
+            android:layout_marginBottom="10dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNombres"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName|textCapWords"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <!-- 3. Teléfono -->
+        <EditText
+            android:id="@+id/txtTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="Apellidos">
+            android:hint="Teléfono / Celular"
+            android:inputType="phone"
+            android:layout_marginBottom="10dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etApellidos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName|textCapWords"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
+        <!-- 4. Correo Electrónico -->
+        <EditText
+            android:id="@+id/txtCorreo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:hint="Correo electrónico">
+            android:hint="Correo electrónico"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="10dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
-        </com.google.android.material.textfield.TextInputLayout>
+        <!-- 5. Dirección -->
+        <EditText
+            android:id="@+id/txtDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dirección de residencia"
+            android:inputType="textPostalAddress"
+            android:layout_marginBottom="10dp" />
 
-        <com.google.android.material.button.MaterialButton
+        <!-- 6. Fecha de Nacimiento -->
+        <EditText
+            android:id="@+id/txtFechaNac"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Fecha de nacimiento (DD/MM/AAAA)"
+            android:inputType="date"
+            android:layout_marginBottom="10dp" />
+
+        <!-- 7. Carrera / Especialidad -->
+        <EditText
+            android:id="@+id/txtCarrera"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Carrera / Especialidad"
+            android:inputType="text"
+            android:layout_marginBottom="10dp" />
+
+        <!-- 8. Ciclo / Semestre -->
+        <EditText
+            android:id="@+id/txtCiclo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ciclo actual (ej. 5to)"
+            android:inputType="text"
+            android:layout_marginBottom="10dp" />
+
+        <!-- 9. Sede / Campus -->
+        <EditText
+            android:id="@+id/txtSede"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Sede / Campus"
+            android:inputType="text"
+            android:layout_marginBottom="10dp" />
+
+        <!-- 10. Observaciones -->
+        <EditText
+            android:id="@+id/txtObservaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Observaciones adicionales"
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Botón Guardar -->
+        <Button
             android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="💾 GUARDAR"
-            android:textSize="16sp"
-            android:backgroundTint="#1976D2"/>
+            android:text="GUARDAR REGISTRO"
+            android:backgroundTint="#1976D2"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
 </ScrollView>
