@@ -59,9 +59,34 @@ public class DBAlumnos extends SQLiteOpenHelper {
 
             id = db.insert(TABLE_ALUMNOS, null, values);
         } catch (Exception ex) {
-            ex.toString();
+            ex.printStackTrace();
         }
         return id;
+    }
+
+    // Método para actualizar los datos de un alumno existente
+    public int actualizarAlumno(Alumnos alumno) {
+        int filasAfectadas = 0;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            values.put("nombre", alumno.getNombre());
+            values.put("dni", alumno.getDni());
+            values.put("telefono", alumno.getTelefono());
+            values.put("correo", alumno.getCorreo());
+            values.put("direccion", alumno.getDireccion());
+            values.put("fechaNac", alumno.getFechaNac());
+            values.put("carrera", alumno.getCarrera());
+            values.put("ciclo", alumno.getCiclo());
+            values.put("sede", alumno.getSede());
+            values.put("observaciones", alumno.getObservaciones());
+
+            filasAfectadas = db.update(TABLE_ALUMNOS, values, "id = ?", new String[]{String.valueOf(alumno.getId())});
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return filasAfectadas;
     }
 
     public List<Alumnos> listarAlumnos() {
@@ -90,7 +115,7 @@ public class DBAlumnos extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception ex) {
-            ex.toString();
+            ex.printStackTrace();
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -104,10 +129,10 @@ public class DBAlumnos extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         try {
-            db.execSQL("DELETE FROM " + TABLE_ALUMNOS + " WHERE id = '" + id + "'");
-            correcto = true;
+            int result = db.delete(TABLE_ALUMNOS, "id = ?", new String[]{String.valueOf(id)});
+            correcto = result > 0;
         } catch (Exception ex) {
-            ex.toString();
+            ex.printStackTrace();
             correcto = false;
         } finally {
             db.close();

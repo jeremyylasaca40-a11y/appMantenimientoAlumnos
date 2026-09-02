@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Evento para abrir el formulario mediante el botón flotante (+)
         fabAgregar.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, NuevoActivity.class));
         });
