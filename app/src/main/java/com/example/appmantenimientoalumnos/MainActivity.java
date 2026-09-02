@@ -1,6 +1,5 @@
 package com.example.appmantenimientoalumnos;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private AlumnoAdapter adapter;
     private DBAlumnos db;
     private TextView tvVacio;
+    private FloatingActionButton fabAgregar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerViewAlumnos);
         tvVacio = findViewById(R.id.tvVacio);
+        fabAgregar = findViewById(R.id.fabAgregar);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Evento para abrir el formulario mediante el botón flotante (+)
+        fabAgregar.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, NuevoActivity.class));
+        });
 
         db = new DBAlumnos(this);
         cargarAlumnos();
@@ -39,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        cargarAlumnos(); // Recarga al volver de NuevoActivity
+        cargarAlumnos();
     }
 
     private void cargarAlumnos() {
@@ -55,14 +64,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Crear el menú
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_principal, menu);
         return true;
     }
 
-    // Manejar clics del menú
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -84,11 +91,10 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    // Método público para eliminar (llamado desde el Adapter)
     public void confirmarEliminacion(Alumnos alumno) {
         new AlertDialog.Builder(this)
                 .setTitle("Confirmar")
-                .setMessage("¿Eliminar al alumno " + alumno.getNombres() + "?")
+                .setMessage("¿Eliminar al alumno " + alumno.getNombre() + "?")
                 .setPositiveButton("Sí", (dialog, which) -> {
                     db.eliminarAlumno(alumno.getId());
                     Toast.makeText(this, "Alumno eliminado", Toast.LENGTH_SHORT).show();

@@ -11,80 +11,107 @@ import java.util.List;
 
 public class DBAlumnos extends SQLiteOpenHelper {
 
-    // Constantes de la base de datos
-    private static final String DB_NAME = "db_alumnos";
-    private static final int DB_VERSION = 1;
-
-    // Constantes de la tabla
-    private static final String TABLE_NAME = "alumnos";
-    private static final String COL_ID = "id";
-    private static final String COL_CODIGO = "codigo";
-    private static final String COL_NOMBRES = "nombres";
-    private static final String COL_APELLIDOS = "apellidos";
-    private static final String COL_EMAIL = "email";
+    private static final String DATABASE_NOMBRE = "escuela.db";
+    private static final int DATABASE_VERSION = 2;
+    public static final String TABLE_ALUMNOS = "t_alumnos";
 
     public DBAlumnos(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+        super(context, DATABASE_NOMBRE, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTable = "CREATE TABLE " + TABLE_NAME + " ("
-                + COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COL_CODIGO + " TEXT NOT NULL, "
-                + COL_NOMBRES + " TEXT NOT NULL, "
-                + COL_APELLIDOS + " TEXT NOT NULL, "
-                + COL_EMAIL + " TEXT NOT NULL)";
-        db.execSQL(createTable);
+        db.execSQL("CREATE TABLE " + TABLE_ALUMNOS + " (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "nombre TEXT NOT NULL, " +
+                "dni TEXT NOT NULL, " +
+                "telefono TEXT NOT NULL, " +
+                "correo TEXT, " +
+                "direccion TEXT, " +
+                "fechaNac TEXT, " +
+                "carrera TEXT, " +
+                "ciclo TEXT, " +
+                "sede TEXT, " +
+                "observaciones TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ALUMNOS);
         onCreate(db);
     }
 
-    // INSERTAR nuevo alumno
     public long insertarAlumno(Alumnos alumno) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COL_CODIGO, alumno.getCodigo());
-        values.put(COL_NOMBRES, alumno.getNombres());
-        values.put(COL_APELLIDOS, alumno.getApellidos());
-        values.put(COL_EMAIL, alumno.getEmail());
+        long id = -1;
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("nombre", alumno.getNombre());
+            values.put("dni", alumno.getDni());
+            values.put("telefono", alumno.getTelefono());
+            values.put("correo", alumno.getCorreo());
+            values.put("direccion", alumno.getDireccion());
+            values.put("fechaNac", alumno.getFechaNac());
+            values.put("carrera", alumno.getCarrera());
+            values.put("ciclo", alumno.getCiclo());
+            values.put("sede", alumno.getSede());
+            values.put("observaciones", alumno.getObservaciones());
 
-        long result = db.insert(TABLE_NAME, null, values);
-        db.close();
-        return result;
+            id = db.insert(TABLE_ALUMNOS, null, values);
+        } catch (Exception ex) {
+            ex.toString();
+        }
+        return id;
     }
 
-    // LISTAR todos los alumnos
     public List<Alumnos> listarAlumnos() {
         List<Alumnos> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " ORDER BY " + COL_ID + " DESC", null);
+        Cursor cursor = null;
 
-        if (cursor.moveToFirst()) {
-            do {
-                Alumnos a = new Alumnos();
-                a.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID)));
-                a.setCodigo(cursor.getString(cursor.getColumnIndexOrThrow(COL_CODIGO)));
-                a.setNombres(cursor.getString(cursor.getColumnIndexOrThrow(COL_NOMBRES)));
-                a.setApellidos(cursor.getString(cursor.getColumnIndexOrThrow(COL_APELLIDOS)));
-                a.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(COL_EMAIL)));
-                lista.add(a);
-            } while (cursor.moveToNext());
+        try {
+            cursor = db.rawQuery("SELECT * FROM " + TABLE_ALUMNOS, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    Alumnos alumno = new Alumnos();
+                    alumno.setId(cursor.getInt(0));
+                    alumno.setNombre(cursor.getString(1));
+                    alumno.setDni(cursor.getString(2));
+                    alumno.setTelefono(cursor.getString(3));
+                    alumno.setCorreo(cursor.getString(4));
+                    alumno.setDireccion(cursor.getString(5));
+                    alumno.setFechaNac(cursor.getString(6));
+                    alumno.setCarrera(cursor.getString(7));
+                    alumno.setCiclo(cursor.getString(8));
+                    alumno.setSede(cursor.getString(9));
+                    alumno.setObservaciones(cursor.getString(10));
+
+                    lista.add(alumno);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception ex) {
+            ex.toString();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-        cursor.close();
-        db.close();
         return lista;
     }
 
-    // ELIMINAR alumno por ID
-    public int eliminarAlumno(int id) {
+    public boolean eliminarAlumno(int id) {
+        boolean correcto = false;
         SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(TABLE_NAME, COL_ID + "=?", new String[]{String.valueOf(id)});
-        db.close();
-        return result;
+
+        try {
+            db.execSQL("DELETE FROM " + TABLE_ALUMNOS + " WHERE id = '" + id + "'");
+            correcto = true;
+        } catch (Exception ex) {
+            ex.toString();
+            correcto = false;
+        } finally {
+            db.close();
+        }
+        return correcto;
     }
 }

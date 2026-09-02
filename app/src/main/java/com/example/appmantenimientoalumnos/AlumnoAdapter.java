@@ -32,9 +32,11 @@ public class AlumnoAdapter extends RecyclerView.Adapter<AlumnoAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Alumnos alumno = listaAlumnos.get(position);
-        holder.tvCodigo.setText(alumno.getCodigo());
-        holder.tvNombreCompleto.setText(alumno.getNombres() + " " + alumno.getApellidos());
-        holder.tvEmail.setText(alumno.getEmail());
+
+        // Se usan los nuevos métodos corregidos
+        holder.tvCodigo.setText("DNI: " + alumno.getDni());
+        holder.tvNombreCompleto.setText(alumno.getNombre());
+        holder.tvEmail.setText(alumno.getCorreo());
 
         holder.btnEliminar.setOnClickListener(v -> context.confirmarEliminacion(alumno));
     }

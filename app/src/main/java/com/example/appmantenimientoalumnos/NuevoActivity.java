@@ -1,16 +1,16 @@
 package com.example.appmantenimientoalumnos;
 
 import android.os.Bundle;
-import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;
-
 public class NuevoActivity extends AppCompatActivity {
 
-    private TextInputEditText etCodigo, etNombres, etApellidos, etEmail;
+    // Se cambió TextInputEditText por EditText
+    private EditText etNombre, etDni, etTelefono, etCorreo, etDireccion,
+            etFechaNac, etCarrera, etCiclo, etSede, etObservaciones;
     private DBAlumnos db;
 
     @Override
@@ -18,16 +18,21 @@ public class NuevoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo);
 
-        // Habilitar el botón de "atrás" en la barra superior
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Nuevo Alumno");
         }
 
-        etCodigo = findViewById(R.id.etCodigo);
-        etNombres = findViewById(R.id.etNombres);
-        etApellidos = findViewById(R.id.etApellidos);
-        etEmail = findViewById(R.id.etEmail);
+        etNombre = findViewById(R.id.txtNombre);
+        etDni = findViewById(R.id.txtDni);
+        etTelefono = findViewById(R.id.txtTelefono);
+        etCorreo = findViewById(R.id.txtCorreo);
+        etDireccion = findViewById(R.id.txtDireccion);
+        etFechaNac = findViewById(R.id.txtFechaNac);
+        etCarrera = findViewById(R.id.txtCarrera);
+        etCiclo = findViewById(R.id.txtCiclo);
+        etSede = findViewById(R.id.txtSede);
+        etObservaciones = findViewById(R.id.txtObservaciones);
 
         db = new DBAlumnos(this);
 
@@ -35,47 +40,62 @@ public class NuevoActivity extends AppCompatActivity {
     }
 
     private void guardarAlumno() {
-        String codigo = etCodigo.getText().toString().trim();
-        String nombres = etNombres.getText().toString().trim();
-        String apellidos = etApellidos.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
+        String nombre = etNombre.getText().toString().trim();
+        String dni = etDni.getText().toString().trim();
+        String telefono = etTelefono.getText().toString().trim();
+        String correo = etCorreo.getText().toString().trim();
+        String direccion = etDireccion.getText().toString().trim();
+        String fechaNac = etFechaNac.getText().toString().trim();
+        String carrera = etCarrera.getText().toString().trim();
+        String ciclo = etCiclo.getText().toString().trim();
+        String sede = etSede.getText().toString().trim();
+        String observaciones = etObservaciones.getText().toString().trim();
 
-        // Validaciones
-        if (codigo.isEmpty() || nombres.isEmpty() || apellidos.isEmpty() || email.isEmpty()) {
-            Toast.makeText(this, "⚠️ Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+        if (nombre.isEmpty() || dni.isEmpty() || telefono.isEmpty()) {
+            Toast.makeText(this, "⚠️ Nombre, DNI y Teléfono son obligatorios", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!correo.isEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches()) {
             Toast.makeText(this, "⚠️ Email inválido", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Crear objeto e insertar
         Alumnos alumno = new Alumnos();
-        alumno.setCodigo(codigo);
-        alumno.setNombres(nombres);
-        alumno.setApellidos(apellidos);
-        alumno.setEmail(email);
+        alumno.setNombre(nombre);
+        alumno.setDni(dni);
+        alumno.setTelefono(telefono);
+        alumno.setCorreo(correo);
+        alumno.setDireccion(direccion);
+        alumno.setFechaNac(fechaNac);
+        alumno.setCarrera(carrera);
+        alumno.setCiclo(ciclo);
+        alumno.setSede(sede);
+        alumno.setObservaciones(observaciones);
 
         long result = db.insertarAlumno(alumno);
 
         if (result > 0) {
             Toast.makeText(this, "✅ Alumno guardado correctamente", Toast.LENGTH_SHORT).show();
             limpiarCampos();
-            // Volver atrás después de 1 segundo
-            new android.os.Handler().postDelayed(() -> finish(), 1000);
+            new android.os.Handler().postDelayed(this::finish, 1000);
         } else {
-            Toast.makeText(this, "❌ Error al guardar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "❌ Error al guardar en la base de datos", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void limpiarCampos() {
-        etCodigo.setText("");
-        etNombres.setText("");
-        etApellidos.setText("");
-        etEmail.setText("");
-        etCodigo.requestFocus();
+        etNombre.setText("");
+        etDni.setText("");
+        etTelefono.setText("");
+        etCorreo.setText("");
+        etDireccion.setText("");
+        etFechaNac.setText("");
+        etCarrera.setText("");
+        etCiclo.setText("");
+        etSede.setText("");
+        etObservaciones.setText("");
+        etNombre.requestFocus();
     }
 
     @Override

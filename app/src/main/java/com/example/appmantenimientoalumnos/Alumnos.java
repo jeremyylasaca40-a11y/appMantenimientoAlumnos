@@ -1,38 +1,104 @@
-package com.example.appmantenimientoalumnos; // Cambia por tu paquete real
+package com.example.appmantenimientoalumnos;
 
 public class Alumnos {
+
     private int id;
-    private String codigo;
-    private String nombres;
-    private String apellidos;
-    private String email;
+    private String nombre;
+    private String dni;
+    private String telefono;
+    private String correo;
+    private String direccion;
+    private String fechaNac;
+    private String carrera;
+    private String ciclo;
+    private String sede;
+    private String observaciones;
 
-    // Constructor vacío (necesario para SQLite)
-    public Alumnos() {
+    public int getId() {
+        return id;
     }
 
-    // Constructor con todos los atributos
-    public Alumnos(int id, String codigo, String nombres, String apellidos, String email) {
+    public void setId(int id) {
         this.id = id;
-        this.codigo = codigo;
-        this.nombres = nombres;
-        this.apellidos = apellidos;
-        this.email = email;
     }
 
-    // Getters y Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getNombre() {
+        return nombre;
+    }
 
-    public String getCodigo() { return codigo; }
-    public void setCodigo(String codigo) { this.codigo = codigo; }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-    public String getNombres() { return nombres; }
-    public void setNombres(String nombres) { this.nombres = nombres; }
+    public String getDni() {
+        return dni;
+    }
 
-    public String getApellidos() { return apellidos; }
-    public void setApellidos(String apellidos) { this.apellidos = apellidos; }
+    public void setDni(String dni) {
+        this.dni = dni;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getFechaNac() {
+        return fechaNac;
+    }
+
+    public void setFechaNac(String fechaNac) {
+        this.fechaNac = fechaNac;
+    }
+
+    public String getCarrera() {
+        return carrera;
+    }
+
+    public void setCarrera(String carrera) {
+        this.carrera = carrera;
+    }
+
+    public String getCiclo() {
+        return ciclo;
+    }
+
+    public void setCiclo(String ciclo) {
+        this.ciclo = ciclo;
+    }
+
+    public String getSede() {
+        return sede;
+    }
+
+    public void setSede(String sede) {
+        this.sede = sede;
+    }
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
 }
